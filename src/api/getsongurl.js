@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 
       if(songs_cache.get(id))//if song url is present in the cache then return it
       {
-        res.status(200).json({"url":songs_cache.get(id),"source":"API"});
+        res.status(200).json({"url":songs_cache.get(id),"source":"Cache"});
         return;
       }
       const song=await get(GetSongDetails(id));
