@@ -3,7 +3,7 @@ const { GetSongDetails} = require('../endpoints');
 const { get } = require('../get');
 const router = express.Router();
 const cache=require("memory-cache");
-
+const fetch=require("node-fetch");
 
 const quality={
     "96":"96",
@@ -15,6 +15,65 @@ const songs_cache=new cache.Cache();
 
 
 const song_base="https://sagraecdnems01.cdnsrv.jio.com/aac.saavncdn.com/";
+
+
+function decode(str)
+{
+
+r='';
+for(var i=0;i<str.length;i++)
+{
+if(str[i]=='+' || str[i]==' ')
+{
+r+='%2B';
+}
+else if(str[i]=='/')
+{
+r+='%2F';
+}
+else
+{
+r+=str[i];
+}
+}
+
+return r;
+
+
+
+}
+
+
+
+
+async function getsongurl(encrypted_media_url){
+  
+  const media_url=decode(encrypted_media_url)
+  geturl=`https://www.jiosaavn.com/api.php?__call=song.generateAuthToken&url=${media_url}&bitrate=160&api_version=4&_format=json&ctx=wap6dot0&_marker=0
+  `
+  const authurldata=await fetch(geturl).then(data=>data.text());
+  const auth_data=JSON.parse(authurldata);
+   
+  const url=await redirected_url(auth_data.auth_url);
+
+  return url;
+
+}
+
+async function redirected_url(data_url)
+{
+  try{
+      const d=await fetch(data_url);
+      return d.url;
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
+
+
+}
+
 
 router.get('/', async (req, res) => {
 
@@ -29,9 +88,18 @@ router.get('/', async (req, res) => {
       if(songs_cache.get(id))//if song url is present in the cache then return it
       {
         res.status(200).json({"url":songs_cache.get(id),"source":"Cache"});
+        
         return;
       }
       const song=await get(GetSongDetails(id));
+
+      if(song.data[id].media_preview_url==undefined){ //if the song does not have media preview url
+        const url =await getsongurl(song.data[id].encrypted_media_url);
+        songs_cache.put(id,url);
+        res.status(200).json({"url":url,"source":"by encryption"});
+        return;
+      }
+      
       
       const media_preview_url=song.data[id].media_preview_url;
       const media_url_array=media_preview_url.split("/");
