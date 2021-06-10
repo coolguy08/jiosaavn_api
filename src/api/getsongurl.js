@@ -75,7 +75,7 @@ async function redirected_url(data_url)
 }
 
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res) =>{
 
       const id=req.query.id;
       const bitrate=quality[req.query.bitrate] || "96";
@@ -87,8 +87,8 @@ router.get('/', async (req, res) => {
 
       if(songs_cache.get(id))//if song url is present in the cache then return it
       {
-        res.status(200).json({"url":songs_cache.get(id),"source":"Cache"});
-        
+        let url=songs_cache.get(id).split('_')[0]+'_'+bitrate+'.mp4';
+        res.status(200).json({"url":url,"source":"Cache"});
         return;
       }
       const song=await get(GetSongDetails(id));
