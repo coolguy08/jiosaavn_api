@@ -4,7 +4,10 @@ const getlaunchdata = require('./getlaunchdata');
 const search = require('./search');
 const getdetails=require('./getdetails');
 const getsongurl=require('./getsongurl');
-const getsongs=require('./getsongsbystation');
+const getsongs=require('./getsongs');
+const getlyrics=require('./getlyrics');
+
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -18,4 +21,5 @@ router.use('/search',search);
 router.use('/getdetails',getdetails);
 router.use('/getsongurl',getsongurl);
 router.use('/getsongs',getsongs);
+router.use('/getlyrics',getlyrics);
 module.exports = router;
