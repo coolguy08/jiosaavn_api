@@ -8,15 +8,20 @@ router.get('/', async (req, res) => {
 
       const station_name=req.query.name || 'Musical Covers';
       const artist_id=req.query.artist_id;
+      const radio_type=req.query.radio_type;
 
       const type=req.query.type;
 
+      
+
       if(type && type=="radio"){  //get songs by station name
 
+       
         let stationid=req.query.stationid;
         if(!stationid){
-          const d=await get(CreateQueue(station_name));
+          const d=await get(CreateQueue(station_name,radio_type));
           stationid=d.data.stationid;
+          console.log(stationid);
          
          
         }

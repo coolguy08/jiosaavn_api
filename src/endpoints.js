@@ -9,7 +9,7 @@ const GetSongDetails=(pid)=>`https://www.jiosaavn.com/api.php?__call=song.getDet
 
 const GetLyrics=(pid)=>`https://www.jiosaavn.com/api.php?__call=lyrics.getLyrics&ctx=web6dot0&api_version=4&_format=json&_marker=0%3F_marker%3D0&lyrics_id=${pid}`;
 
-const CreateQueue=(radio_name)=>`https://www.jiosaavn.com/api.php?language=hindi&pid=&query=&name=${radio_name}&mode=&artistid=&api_version=4&_format=json&_marker=0&ctx=wap6dot0&__call=webradio.createFeaturedStation`
+const CreateQueue=(radio_name,station_type)=>`https://www.jiosaavn.com/api.php?language=hindi&pid=&query=${radio_name}&name=${radio_name}&mode=&artistid=&api_version=4&_format=json&_marker=0&ctx=wap6dot0&__call=${station_type=='featured'?'webradio.createFeaturedStation':'webradio.createArtistStation'}`
 
 const GetSongsByStation=(stationid,n)=>`https://www.jiosaavn.com/api.php?__call=webradio.getSong&stationid=${stationid}&k=${n}&next=1&api_version=4&_format=json&_marker=0&ctx=wap6dot0`
 
