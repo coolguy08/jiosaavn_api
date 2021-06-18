@@ -5,7 +5,8 @@ const cache=require("memory-cache");
 const router = express.Router();
 
 const LaunchDataCache=new cache.Cache();
-const cacheTime=30000;//time in mili seconds
+const cacheTime=60*60*1000;//time in mili seconds
+
 router.get('/', async (req, res) => {
 
   if(!LaunchDataCache.get("data"))

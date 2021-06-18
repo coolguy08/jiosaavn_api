@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
       }
 
       const response=await get(GetLyrics(id));
-    //   const data=await response.json();
+    
 
     res.status(200).json({data:response.data,"source":"API"});
 
