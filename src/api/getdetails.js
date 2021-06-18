@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       const type=req.query.type;
       const id=req.query.id;
       const page=req.query.page || 1;
-      const n=req.query.n || 10;
+      const n=isNaN(req.query.n)?10:req.query.n
      
       if(!type || !id){
           res.json({"error":"Invalid Arguments"});
@@ -24,8 +24,9 @@ router.get('/', async (req, res) => {
         return;
       }
 
-
-      const response=await get(GetDetails(id,type,page,n));
+      let link=GetDetails(id,type,page,n);
+      console.log(link);
+      const response=await get(link);
 
       caching.put(id,response.data,cacheTime);
       res.status(200).json({"data":response.data,"source":"API"});
