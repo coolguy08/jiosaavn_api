@@ -14,7 +14,7 @@ const quality={
 const songs_cache=new cache.Cache();
 
 
-const song_base="https://sagraecdnems01.cdnsrv.jio.com/aac.saavncdn.com/";
+let song_base="https://sagraecdnems0$.cdnsrv.jio.com/aac.saavncdn.com/";
 
 
 function decode(str)
@@ -103,6 +103,14 @@ router.get('/', async (req, res) =>{
       
       const media_preview_url=song.data[id].media_preview_url;
       const media_url_array=media_preview_url.split("/");
+
+      let randomserver=Math.floor(Math.random()*6);
+
+      if(randomserver==0){
+        randomserver=randomserver+1;
+      }
+      song_base=song_base.replace("$",randomserver);
+
       let songurl=song_base+`${media_url_array[3]}/${media_url_array[4]}`;
       songurl=songurl.replace("_p","");
       songurl=songurl.replace("_96","_"+bitrate);//converting to the given quality
