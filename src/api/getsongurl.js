@@ -109,9 +109,9 @@ router.get('/', async (req, res) =>{
       if(randomserver==0){
         randomserver=randomserver+1;
       }
-      song_base=song_base.replace("$",randomserver);
+      base=song_base.replace("$",randomserver);
 
-      let songurl=song_base+`${media_url_array[3]}/${media_url_array[4]}`;
+      let songurl=base+`${media_url_array[3]}/${media_url_array[4]}`;
       songurl=songurl.replace("_p","");
       songurl=songurl.replace("_96","_"+bitrate);//converting to the given quality
 
