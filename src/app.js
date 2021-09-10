@@ -19,7 +19,9 @@ app.use(compression());
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to Musico API'
+    message: 'Welcome to Musico API',
+    "API Docs" :'https://documenter.getpostman.com/view/17456794/U16jPS13#intro',
+    
   });
 });
 
