@@ -12,7 +12,8 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   res.json({
-    message: 'API - Root Request'
+    message: 'API - Root Request',
+    "API Docs" :'https://documenter.getpostman.com/view/17456794/U16jPS13#intro',
   });
 });
 
