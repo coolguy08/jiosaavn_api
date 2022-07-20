@@ -13,6 +13,7 @@ const CreateQueue=(radio_name,station_type)=>`https://www.jiosaavn.com/api.php?l
 
 const GetSongsByStation=(stationid,n)=>`https://www.jiosaavn.com/api.php?__call=webradio.getSong&stationid=${stationid}&k=${n}&next=1&api_version=4&_format=json&_marker=0&ctx=wap6dot0`
 
+const GetMoreSongs=(query,page)=>`https://www.jiosaavn.com/api.php?p=${page}&q=${query}&_format=json&_marker=0&api_version=4&ctx=web6dot0&n=40&__call=search.getResults`;
 
 
 module.exports={
@@ -22,6 +23,7 @@ module.exports={
     GetSongDetails,
     GetLyrics,
     CreateQueue,
-    GetSongsByStation
+    GetSongsByStation,
+    GetMoreSongs
 
 };

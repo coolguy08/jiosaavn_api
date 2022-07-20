@@ -1,5 +1,5 @@
 const express = require('express');
-const {CreateQueue,GetSongsByStation, GetDetails } = require('../endpoints');
+const {CreateQueue,GetSongsByStation, GetDetails, GetMoreSongs } = require('../endpoints');
 const { get } = require('../get');
 const router = express.Router();
 const cache=require('memory-cache');
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
       const radio_type=req.query.radio_type;
 
       const type=req.query.type;
-
-      
+      const query=req.query.query;
+      const page=req.query.page;
 
       if(type && type=="radio"){  //get songs by station name
 
@@ -57,6 +57,10 @@ router.get('/', async (req, res) => {
         caching.put(artist_id,response.data.topSongs,cacheTime);
         res.status(200).json({"data":response.data.topSongs,"source":"API"});
 
+      }
+      else if(query && page){
+          const response=await get(GetMoreSongs(query,page));
+          res.status(200).json({"data":response.data.results,"source":"API"});
       }
       else{
         res.status(202).json({"msg":"Inalid Arguments","source":"API"});
